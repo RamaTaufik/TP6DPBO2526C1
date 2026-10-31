@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class View extends JPanel {
     int width = 360, height = 640;
@@ -17,6 +18,7 @@ public class View extends JPanel {
 
     public void draw(Graphics g) {
         Player player = logic.getPlayer();
+        ArrayList<Obstacle> obss = logic.getObss();
 
         if(player != null) {
             g.drawImage(
@@ -27,6 +29,21 @@ public class View extends JPanel {
                     player.getHeight(),
                     null
             );
+        }
+
+        if(obss != null) {
+            for(int i = 0; i < obss.size(); i++) {
+                Obstacle obs = obss.get(i);
+
+                g.drawImage(
+                    obs.getImage(),
+                    obs.getPosX(),
+                    obs.getPosY(),
+                    obs.getWidth(),
+                    obs.getHeight(),
+                    null
+                );
+            }
         }
     }
 
