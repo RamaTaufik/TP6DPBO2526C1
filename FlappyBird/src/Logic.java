@@ -68,6 +68,11 @@ public class Logic implements ActionListener, KeyListener {
         view = v;
     }
 
+    public void setScore(int s) {
+        score = s;
+        view.updateScore(score);
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -112,7 +117,7 @@ public class Logic implements ActionListener, KeyListener {
             }
             if(!cur.getIsPassed() && player.getPosX() >= cur.getPosX()) {
                 cur.setIsPassed(true);
-                score += 5;
+                setScore(score + 5);
             }
         }
 
@@ -168,7 +173,7 @@ public class Logic implements ActionListener, KeyListener {
                 player.setVelocityY(0);
                 player.setPosY(player_start_pos_y);
                 gravity = 0;
-                score = 0;
+                setScore(0);
                 game_state = 2;
             }
         }

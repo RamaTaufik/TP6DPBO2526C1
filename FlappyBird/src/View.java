@@ -7,6 +7,7 @@ public class View extends JPanel {
     int width = 360, height = 640;
 
     private Logic logic;
+    JLabel score_label;
 
     public View(Logic l) {
         logic = l;
@@ -15,6 +16,16 @@ public class View extends JPanel {
 
         setFocusable(true);
         addKeyListener(logic);
+
+        score_label = new JLabel("Score: 0");
+        score_label.setFont(new Font("Monospaced", Font.BOLD, 20));
+        score_label.setForeground(Color.WHITE);
+        // score_label.setBounds(50, 30, 150, 30);
+        this.add(score_label);
+    }
+
+    public void updateScore(int score) {
+        score_label.setText("Score : " + score);
     }
 
     public void draw(Graphics g) {
@@ -48,16 +59,14 @@ public class View extends JPanel {
         }
 
         if(logic.game_state == -1 ) {
+            score_label.setText("");
+
             g.setColor(new Color(0, 0, 0, 128));
             g.fillRect(0, 0, width, height);
 
             g.setColor(Color.WHITE);
-            g.setFont(new Font("Consolas", Font.BOLD, 30));
+            g.setFont(new Font("Monospaced", Font.BOLD, 30));
             g.drawString("Final Score:" + logic.score, 30, height / 2);
-        } else if(logic.game_state != 0) {
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("Consolas", Font.BOLD, 20));
-            g.drawString("Score: " + logic.score, 20, 40);
         }
 
         if(logic.text_jump != null && logic.game_state == 2) {
