@@ -9,4 +9,11 @@ public class Obstacle extends Object {
         velocity_x = 0;
         is_passed = false;
     }
+
+    public void setIsPassed(boolean ip) {
+        is_passed = ip;
+    }
+    public boolean getIsPassed() {
+        return is_passed;
+    }
 }

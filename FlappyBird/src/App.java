@@ -11,7 +11,7 @@ public class App {
 
         Logic logic = new Logic();
         View view = new View(logic);
-        logic.setView(view);;
+        logic.setView(view);
         view.requestFocus();
 
         frame.add(view);
