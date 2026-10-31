@@ -115,7 +115,7 @@ public class Logic implements ActionListener, KeyListener {
             ) {
                 return true;
             }
-            if(!cur.getIsPassed() && player.getPosX() >= cur.getPosX()) {
+            if(!cur.getIsPassed() && player.getPosX() >= cur.getPosX() + cur.getWidth()) {
                 cur.setIsPassed(true);
                 setScore(score + 5);
             }
