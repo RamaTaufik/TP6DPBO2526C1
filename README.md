@@ -48,6 +48,9 @@ Disini gravitasi belum aktif dan penghalang belum muncul, dan untuk benar-benar 
 Dari sini, pemain bisa menekan tombol R untuk mengulang permainan lagi, dan seterusnya sampai puas.
 
 # DOKUMENTASI (VIDEO)
+
+(*note: suara pada video sedikit delay*)
+
 [![Video Gameplay](docs/home.png)](docs/gameplay.mp4)
 
 # CATATAN
