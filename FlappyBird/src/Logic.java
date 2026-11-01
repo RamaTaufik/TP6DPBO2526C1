@@ -192,6 +192,8 @@ public class Logic implements ActionListener, KeyListener {
                 menu_bgm.stop();
                 menu_bgm.setFramePosition(0);
 
+                SoundManager.playSound("menu - Select.wav");
+
                 if(menu_idx == 1) {
                     menu_idx = 11;
                     delay.start();
@@ -208,6 +210,8 @@ public class Logic implements ActionListener, KeyListener {
                 } else {
                     menu_idx = 1;
                 }
+
+                SoundManager.playSound("menu - Move.wav");
             }
             if(e.getKeyCode() == KeyEvent.VK_UP) {
                 if(menu_idx == 2) {
@@ -215,6 +219,8 @@ public class Logic implements ActionListener, KeyListener {
                 } else {
                     menu_idx = 2;
                 }
+
+                SoundManager.playSound("menu - Move.wav");
             }
         } else if(game_state == 1 || game_state == 2) {
             if(e.getKeyCode() == KeyEvent.VK_SPACE) {
