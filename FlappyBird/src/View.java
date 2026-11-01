@@ -4,22 +4,30 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class View extends JPanel {
-    int width = 360, height = 640, opacity = 0;
+    int width = 360, height = 640, opacity = 0, game_tick = 0;
 
     private Logic logic;
     JLabel score_label;
+    ArrayList<ParallaxBackground> p_bgs;
 
     public View(Logic l) {
         logic = l;
+        p_bgs = new ArrayList<ParallaxBackground>();
+
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.cyan);
+        p_bgs.add(new ParallaxBackground(width - 540, 0, 540, 640, "background/parallax - 01.png", 0));
+        p_bgs.add(new ParallaxBackground(0, 0, 540, 640, "background/parallax - 02.png", -1));
+        p_bgs.add(new ParallaxBackground(0, 0, 540, 640, "background/parallax - 03.png", -1));
+        p_bgs.add(new ParallaxBackground(0, 0, 540, 640, "background/parallax - 04.png", -3));
+        p_bgs.add(new ParallaxBackground(0, 0, 540, 640, "background/parallax - 05.png", -1));
 
         setFocusable(true);
         addKeyListener(logic);
 
         score_label = new JLabel("");
         score_label.setFont(new Font("Monospaced", Font.BOLD, 20));
-        score_label.setForeground(Color.WHITE);
+        score_label.setForeground(Color.BLACK);
         this.add(score_label);
     }
 
@@ -28,6 +36,21 @@ public class View extends JPanel {
     }
 
     public void draw(Graphics g) {
+        for (int i = 0; i < p_bgs.size(); i++) {
+            ParallaxBackground cur = p_bgs.get(i);
+
+            if (logic.game_state == 1 && (i == p_bgs.size() - 1 || game_tick % 5 == 0)) {
+                cur.setPosX(cur.getPosX() + cur.getVelocityX());
+
+                if (cur.getPosX() + cur.getWidth() < 0) {
+                    cur.setPosX(cur.getPosX() + cur.getWidth());
+                }
+            }
+
+            g.drawImage(cur.getImage(), cur.getPosX(), cur.getPosY(), cur.getWidth(), cur.getHeight(), null);
+            if(i != 0) g.drawImage(cur.getImage(), cur.getPosX() + cur.getWidth(), cur.getPosY(), cur.getWidth(), cur.getHeight(), null);
+        }
+
         if(logic.game_state == 0) {
             BufferedImage b_s = logic.button_start, b_e = logic.button_exit;
             int idx = logic.menu_idx,is_b_s = idx == 1? 10: 0, is_b_e = idx == 2? 10: 0;
@@ -139,6 +162,8 @@ public class View extends JPanel {
                 null
             );
         }
+
+        game_tick = (game_tick + 1) % 10;
     }
 
     @Override
