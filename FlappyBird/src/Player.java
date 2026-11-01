@@ -1,6 +1,9 @@
 import java.awt.*;
 
+// Kelas ini merupakan kelas yang dipakai untuk instansiasi pemain
 public class Player extends Object {
+    // Karena dalam Flappy Bird pemain hanya bergerak ke atas dan ke bawah, maka hanya diperlukan velocity_y saja
+    // untuk menghitung pergerakan vertikal yang smooth
     private int velocity_y;
 
     public Player(int x, int y, int w, int h, Image img) {
