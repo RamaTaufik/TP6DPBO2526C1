@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,8 +29,12 @@ public class Logic implements ActionListener, KeyListener {
     BufferedImage button_start, button_exit, text_jump, text_restart;
     Player player;
     ArrayList<Obstacle> obss;
+    Clip menu_bgm, playing_bgm;
 
     public Logic() {
+        menu_bgm = SoundManager.getMusic("menu.wav");
+        playing_bgm = SoundManager.getMusic("playing.wav");
+
         try {
             text_jump = ImageIO.read(new File("src/assets/text - Jump.png"));
             text_restart = ImageIO.read(new File("src/assets/text - Restart.png"));
@@ -42,9 +47,7 @@ public class Logic implements ActionListener, KeyListener {
         delay = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(menu_idx == 22) {
-                    System.exit(0);
-                } else if(game_state == 0) {
+                if(game_state == 0) {
                     game_state = 2;
                     setScore(0);
                     text_cd.start();
@@ -80,6 +83,8 @@ public class Logic implements ActionListener, KeyListener {
 
         game_time = new Timer(1000 / 60, this);
         game_time.start();
+
+        menu_bgm.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void setView(View v) {
@@ -166,8 +171,11 @@ public class Logic implements ActionListener, KeyListener {
                 obs_cd.stop();
                 game_state = -2;
                 delay.start();
+                SoundManager.playSound("dead.wav");
+                playing_bgm.stop();
+                playing_bgm.setFramePosition(0);
             }
-        } else if(game_state == 0) {} else if(game_state == -1) {
+        } else if(game_state == -1) {
             text_cd.start();
         }
 
@@ -181,12 +189,15 @@ public class Logic implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         if(game_state == 0) {
             if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                menu_bgm.stop();
+                menu_bgm.setFramePosition(0);
+
                 if(menu_idx == 1) {
                     menu_idx = 11;
                     delay.start();
                 } else {
                     menu_idx = 22;
-                    delay.start();
+                    System.exit(0);
                 }
 
                 return;
@@ -207,6 +218,7 @@ public class Logic implements ActionListener, KeyListener {
             }
         } else if(game_state == 1 || game_state == 2) {
             if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+                SoundManager.playSound("jump.wav");
                 player.setVelocityY(-10);
 
                 if(game_state == 2) {
@@ -214,6 +226,7 @@ public class Logic implements ActionListener, KeyListener {
                     gravity = 1;
                     game_state = 1;
                     obs_cd.start();
+                    playing_bgm.loop(Clip.LOOP_CONTINUOUSLY);
                 }
             }
         } else if(game_state == -1) {
