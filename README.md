@@ -19,7 +19,7 @@ Program terdiri dari 8 kelas:
 
   Dari metode `main` di kelas `App`, aplikasi ini akan membuat satu `View` dan `Logic`. Pada `Logic` sendiri, permainan diatur dengan sistem `game_state` untuk pergantian *state* dari menu menuju bermain, dari bermain ke *game over*, dsb. `game_state` tersebut dapat bernilai:
   
-| `game_state` | 0 | 2 | 1 | -2 | 1 |
+| `game_state` | 0 | 2 | 1 | -2 | -1 |
 | --- | --- | --- | --- | --- | --- |
 | Deskripsi | Menu awal | Awal permainan / Persiapan | Permainan utama | Menabrak *ostacle* / Menyentuh tanah | *Game over* |
 | Tampilan | ![Menu awal](docs/home.png) | ![Game start](docs/start.png) | ![Main game loop](docs/game.png) | ![Crash](docs/crash.png) | ![Game over](docs/over.png) |
@@ -48,7 +48,7 @@ Disini gravitasi belum aktif dan penghalang belum muncul, dan untuk benar-benar 
 Dari sini, pemain bisa menekan tombol R untuk mengulang permainan lagi, dan seterusnya sampai puas.
 
 # DOKUMENTASI (VIDEO)
-[![Video Gameplay](docs/gameplay.mp4)](docs/gameplay.mp4)
+[![Video Gameplay](docs/home.png)](docs/gameplay.mp4)
 
 # CATATAN
 *All credits go to:* 
