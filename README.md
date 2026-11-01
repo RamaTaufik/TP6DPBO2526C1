@@ -10,6 +10,7 @@ Program terdiri dari 8 kelas:
   1. `App`, kelas utama tempat *function* `main`;
   2. `Logic`, kelas yang mengatur logika permainan. Perhitungan skor, *input* pemain, *collision*, semuanya diatur disini;
   3. `Object`, kelas parent untuk segala objek bergerak yang muncul *in*-*game*, meliputi:
+
     - `Player`, kelas yang merupakan objek pemain alias sang burung kuning. Memiliki tambahan atribut `velocity_y` karena pemain hanya bergerak ke atas atau ke bawah;
     - `Obstacle`, objek yang menjadi penghalang (dalam hal ini, pipa). Memiliki tambahan atribut `is_passed` yang menjadi *flag* apakah penghalang sudah terlewati atau belum;
     - `ParallaxBackground`, objek yang menjadi *background* bergerak, seolah-olah ada kedalaman (*parallax*). Memiliki tambahan atribut `velocity_x` karena *background* bergerak dari kanan ke kiri sehingga pemain nampak maju walau hanya bergerak ke atas dan bawah saja.
@@ -18,13 +19,10 @@ Program terdiri dari 8 kelas:
 
   Dari metode `main` di kelas `App`, aplikasi ini akan membuat satu `View` dan `Logic`. Pada `Logic` sendiri, permainan diatur dengan sistem `game_state` untuk pergantian *state* dari menu menuju bermain, dari bermain ke *game over*, dsb. `game_state` tersebut dapat bernilai:
   
-| `game_state` | Deskripsi | Tampilan |
-| --- | --- | --- |
-| 0 | Menu awal | ![Menu awal](docs/home.png) |
-| 2 | Awal permainan / Persiapan | ![Game start](docs/start.png) |
-| 1 | Permainan utama | ![Main game loop](docs/game.png) |
-| -2 | Menabrak *obstacle* / Menyentuh tanah | ![Crash](docs/crash.png) |
-| -1 | Game over | ![Game over](docs/over.png) |
+| `game_state` | 0 | 2 | 1 | -2 | 1 |
+| --- | --- | --- | --- | --- | --- |
+| Deskripsi | Menu awal | Awal permainan / Persiapan | Permainan utama | Menabrak *ostacle* / Menyentuh tanah | *Game over* |
+| Tampilan | ![Menu awal](docs/home.png) | ![Game start](docs/start.png) | ![Main game loop](docs/game.png) | ![Crash](docs/crash.png) | ![Game over](docs/over.png) |
 
 Otomatis *state* ini juga akan berpengaruh pada `View`, menentukan apa yang digambarkan sesuai dengan *state* saat ini. Dari kelas `Logic` sendiri akan membuat satu `Player` dan sebuah *arraylist* `Obstacle`, dimana ia juga akan menentukan letak celah yang bisa dilewati pada tiap pasang `Obstacle`. Agar tidak menumpuk, `Obstacle` yang sudah keluar layar akan langsung dihapus. 
 
@@ -49,8 +47,8 @@ Disini gravitasi belum aktif dan penghalang belum muncul, dan untuk benar-benar 
 
 Dari sini, pemain bisa menekan tombol R untuk mengulang permainan lagi, dan seterusnya sampai puas.
 
-# DOKUMENTASI
-<video src="docs/gameplay.mp4" controls="controls" style="max-width: 50%;"></video>
+# DOKUMENTASI (VIDEO)
+[![Video Gameplay](docs/gameplay.mp4)](docs/gameplay.mp4)
 
 # CATATAN
 *All credits go to:* 
