@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Logic implements ActionListener, KeyListener {
-    int frame_w = 360, frame_h = 640, score = 0, game_state = 2; // -1 => Game over, 0 => Menu, 1 => Playing, 2 => Tutorial
+    int frame_w = 360, frame_h = 640, score = 0, game_state = 0; // -1 => Game over, 0 => Menu, 1 => Playing, 2 => Tutorial
     int player_start_pos_x = frame_w / 2;
     int player_start_pos_y = frame_h / 2;
     int player_w = 34, player_h = 24, gravity = 0;
@@ -20,12 +20,12 @@ public class Logic implements ActionListener, KeyListener {
     int obs_start_pos_y = 0;
     int obs_w = 64, obs_h = 512, obs_velocity_x = -2;
 
-    int text_idx = 0;
+    int text_idx = 0, menu_idx = 0;
 
-    Timer game_time, obs_cd, text_cd; // game_time untuk game loop, obs_cd untuk cooldown obstacle, text_cd untuk animasi teks
+    Timer game_time, obs_cd, text_cd, delay; // game_time untuk game loop, obs_cd untuk cooldown obstacle, text_cd untuk animasi teks
     View view;
-    Image player_img, lower_obs_img, upper_obs_img;
-    BufferedImage text_jump, text_restart;
+    Image logo_img, guide_img, player_img, lower_obs_img, upper_obs_img;
+    BufferedImage button_start, button_exit, text_jump, text_restart;
     Player player;
     ArrayList<Obstacle> obss;
 
@@ -33,10 +33,27 @@ public class Logic implements ActionListener, KeyListener {
         try {
             text_jump = ImageIO.read(new File("src/assets/text - Jump.png"));
             text_restart = ImageIO.read(new File("src/assets/text - Restart.png"));
+            button_start = ImageIO.read(new File("src/assets/button - Start.png"));
+            button_exit = ImageIO.read(new File("src/assets/button - Exit.png"));
         } catch(IOException e) {
             e.printStackTrace();
         }
 
+        delay = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(menu_idx == 22) {
+                    System.exit(0);
+                } else if(game_state == 0) {
+                    game_state = 2;
+                    setScore(0);
+                    text_cd.start();
+                } else if(game_state == -2) {
+                    game_state = -1;
+                }
+            }
+        });
+        delay.setRepeats(false);
         text_cd = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,6 +61,8 @@ public class Logic implements ActionListener, KeyListener {
             }
         });
 
+        logo_img = new ImageIcon(getClass().getResource("assets/logo.png")).getImage();
+        guide_img = new ImageIcon(getClass().getResource("assets/text - Guide.png")).getImage();
         player_img = new ImageIcon(getClass().getResource("assets/bird.png")).getImage();
         player = new Player(player_start_pos_x, player_start_pos_y, player_w, player_h, player_img);
 
@@ -61,7 +80,6 @@ public class Logic implements ActionListener, KeyListener {
 
         game_time = new Timer(1000 / 60, this);
         game_time.start();
-        text_cd.start();
     }
 
     public void setView(View v) {
@@ -142,7 +160,8 @@ public class Logic implements ActionListener, KeyListener {
 
             if(isColliding()) {
                 obs_cd.stop();
-                game_state = -1;
+                game_state = -2;
+                delay.start();
             }
         } else if(game_state == 0) {} else if(game_state == -1) {
             text_cd.start();
@@ -156,7 +175,33 @@ public class Logic implements ActionListener, KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {}
     public void keyPressed(KeyEvent e) {
-        if(game_state == 1 || game_state == 2) {
+        if(game_state == 0) {
+            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if(menu_idx == 1) {
+                    menu_idx = 11;
+                    delay.start();
+                } else {
+                    menu_idx = 22;
+                    delay.start();
+                }
+
+                return;
+            }
+            if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+                if(menu_idx == 1) {
+                    menu_idx = 2;
+                } else {
+                    menu_idx = 1;
+                }
+            }
+            if(e.getKeyCode() == KeyEvent.VK_UP) {
+                if(menu_idx == 2) {
+                    menu_idx = 1;
+                } else {
+                    menu_idx = 2;
+                }
+            }
+        } else if(game_state == 1 || game_state == 2) {
             if(e.getKeyCode() == KeyEvent.VK_SPACE) {
                 player.setVelocityY(-10);
 
