@@ -121,6 +121,10 @@ public class Logic implements ActionListener, KeyListener {
     }
 
     public boolean isColliding() {
+        if(player.getPosY() + player.getHeight() >= frame_h) {
+            return true;
+        }
+
         for(int i = 0; i < Math.min(obss.size(), 4); i++) {
             Obstacle cur = obss.get(i);
             int end_x = player.getPosX() + player.getWidth();
